@@ -1,0 +1,15 @@
+//post 
+curl.exe -X POST http://localhost:8080/planets/save -H 'Content-Type: application/json;' -d '{\"name\":\"erefdfcedfn\", \"population\":\"10000\", \"terrains\":\"terre\", \"climates\":\"chaud\"}'
+
+// getall and one
+curl.exe -X GET http://localhost:8080/planets/all
+curl.exe -X GET http://localhost:8080/planets/1
+
+// update
+curl.exe -X PUT http://localhost:8080/planets/update -H 'Content-Type: application/json;' -d '{\"id\": \"1\", \"name\":\"bobby\", \"population\":\"10000\", \"terrains\":\"terre\", \"climates\":\"chaud\"}'
+
+
+// post, get for id and delete (change id)
+curl.exe -X POST http://localhost:8080/planets/save -H 'Content-Type: application/json;' -d '{\"name\":\"azertyuiop\", \"population\":\"2\", \"terrains\":\"eau\", \"climates\":\"humide\"}'
+curl.exe -X GET http://localhost:8080/planets/all
+curl.exe -X DELETE http://localhost:8080/planets/del -H 'Content-Type: application/json;' -d '{\"id\":\"3\", \"name\":\"azertyuiop\", \"population\":\"2\", \"terrains\":\"eau\", \"climates\":\"humide\"}'

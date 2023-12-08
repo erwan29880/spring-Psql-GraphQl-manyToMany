@@ -1,0 +1,15 @@
+version: '3.6'
+
+services:
+  psql:
+    container_name: "javapsql"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - ./postg:/var/lib/postgresql/data
