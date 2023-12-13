@@ -10,12 +10,12 @@ public class PsqlApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PsqlApplication.class, args);
-		DataLoaderService s = new DataLoaderService();
-		try {
-			s.loadData();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// DataLoaderService s = new DataLoaderService();
+		// try {
+		// 	s.loadData(true);
+		// } catch (Exception e) {
+		// 	e.printStackTrace();
+		// }
 	}
 
 }
