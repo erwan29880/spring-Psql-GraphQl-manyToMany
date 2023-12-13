@@ -2,6 +2,8 @@ package fr.erwan.psql.multiRel;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 
 import jakarta.persistence.Entity;
@@ -19,11 +21,12 @@ public class Climates {
 
     private String climate;
     
-    @ManyToMany(fetch = FetchType.LAZY,
-      cascade = {
-          CascadeType.PERSIST,
-          CascadeType.MERGE
-      } ,mappedBy = "climates")
+    // @ManyToMany(fetch = FetchType.LAZY,
+    //   cascade = {
+    //       CascadeType.PERSIST,
+    //       CascadeType.MERGE
+    //   } ,mappedBy = "climates")
+    @ManyToMany
     private List<Planet> planets;
 
     public Climates() {

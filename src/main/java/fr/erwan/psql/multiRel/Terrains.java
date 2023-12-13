@@ -1,6 +1,9 @@
 package fr.erwan.psql.multiRel;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 
 import jakarta.persistence.Entity;
@@ -19,11 +22,12 @@ public class Terrains {
 
     private String terrains;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-      cascade = {
-          CascadeType.PERSIST,
-          CascadeType.MERGE
-      }, mappedBy = "terrains")
+    // @ManyToMany(fetch = FetchType.LAZY,
+    //   cascade = {
+    //       CascadeType.PERSIST,
+    //       CascadeType.MERGE
+    //   }, mappedBy = "terrains")
+    @ManyToMany
     private List<Planet> planets;
 
 

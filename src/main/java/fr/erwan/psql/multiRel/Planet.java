@@ -2,6 +2,8 @@ package fr.erwan.psql.multiRel;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 
 import jakarta.persistence.Entity;
@@ -101,6 +103,8 @@ public class Planet {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append(this.id);
+        sb.append(" - ");
         sb.append(this.name);
         sb.append(" - ");
         sb.append(this.population);

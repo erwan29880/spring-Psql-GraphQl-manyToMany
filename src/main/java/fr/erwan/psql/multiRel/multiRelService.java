@@ -3,8 +3,8 @@ package fr.erwan.psql.multiRel;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.tool.schema.spi.ContributableMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,7 +33,20 @@ public class multiRelService {
         this.dataLoader  = new DataLoaderService();
     }
 
+    public List<Planet> getAll() {
+        List<Planet> planets = new ArrayList<>();
+        // List<Planet> plane = repo.findAllRel();
+        // repo.findAll().forEach(System.out::println);
+        // plane.forEach(System.out::println);
 
+        repo.findAll().forEach(planets::add);
+
+        System.out.println(planets.get(0));
+
+        return planets;
+    }
+
+    
     public List<Planet> savePlanets() {
         List<JsonNode> jsns = new ArrayList<>();
         List<Planet> planets = new ArrayList<>();
@@ -61,16 +74,23 @@ public class multiRelService {
 
             ArrayNode terrs = (ArrayNode) jsn.get("terrains");
             for (JsonNode j: terrs) {
-                Terrains t = new Terrains();
-                t.SetTerrains(j.asText());
+                Terrains t = terrainRepo.findByTerrains(j.asText()).orElseGet(() -> {
+                    Terrains d = new Terrains();
+                    d.SetTerrains(j.asText());
+                    return d;
+                });
+                
                 terrains.add(t);
             }
 
             ArrayNode clims = (ArrayNode) jsn.get("climates");
             for (JsonNode j: clims) {
-                Climates c = new Climates();
-                c.SetClimate(j.asText());
-                climates.add(c);
+                Climates t = climateRepo.findByClimate(j.asText()).orElseGet(() -> {
+                    Climates d = new Climates();
+                    d.SetClimate(j.asText());
+                    return d;
+                });
+                climates.add(t);
             }
 
             p.SetClimates(climates);
