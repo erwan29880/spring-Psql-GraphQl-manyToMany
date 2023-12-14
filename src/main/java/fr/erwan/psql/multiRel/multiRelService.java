@@ -1,20 +1,29 @@
 package fr.erwan.psql.multiRel;
 
+import java.util.Set;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import fr.erwan.psql.gql.DataLoaderService;
+import fr.erwan.psql.entities.Climates;
+import fr.erwan.psql.entities.Planet;
+import fr.erwan.psql.entities.PlanetFront;
+import fr.erwan.psql.entities.Terrains;
 import fr.erwan.psql.repos.ClimateRepo;
 import fr.erwan.psql.repos.PlanetRepo;
 import fr.erwan.psql.repos.TerrainRepo;
 
+
+/**
+ * Classe de service qui implémente les repos
+ * Crud sur Planet et ses tables associées (n n) climates, terrains, tables d'associations
+ */
 @Service
 public class multiRelService {
     
@@ -27,6 +36,7 @@ public class multiRelService {
     @Autowired
     private TerrainRepo terrainRepo;
 
+    // load graphQl data from APi
     private DataLoaderService dataLoader;
 
     public multiRelService() {
@@ -35,14 +45,7 @@ public class multiRelService {
 
     public List<Planet> getAll() {
         List<Planet> planets = new ArrayList<>();
-        // List<Planet> plane = repo.findAllRel();
-        // repo.findAll().forEach(System.out::println);
-        // plane.forEach(System.out::println);
-
         repo.findAll().forEach(planets::add);
-
-        System.out.println(planets.get(0));
-
         return planets;
     }
 
@@ -61,8 +64,8 @@ public class multiRelService {
         for (JsonNode jsn: jsns) {
 
             Planet p = new Planet();
-            List<Terrains> terrains = new ArrayList<>();
-            List<Climates> climates = new ArrayList<>();
+            Set<Terrains> terrains = new HashSet<>();
+            Set<Climates> climates = new HashSet<>();
 
             p.SetName(jsn.get("name").asText());
             String population = jsn.get("population").asText();
@@ -103,5 +106,24 @@ public class multiRelService {
 
     public Planet savePlanet(Planet planet) {
         return repo.save(planet);
+    }
+
+    public Planet delete(long id) {
+        repo.deleteById(id);
+        return repo.findById(id).orElse(new Planet());
+    }
+
+    public Planet getById(long id) {
+        return repo.findById(id).orElse(new Planet());
+    }
+
+    public Planet update(PlanetFront planetFront) {
+        Planet planet = repo.findByName(planetFront.getName()).orElse(new Planet());
+        if (planet.getName() == null) {
+            return new Planet();
+        }
+
+        delete(planet.getId());
+        return repo.save(planetFront.toPlanet());
     }
 }

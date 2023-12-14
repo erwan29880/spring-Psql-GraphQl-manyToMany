@@ -1,11 +1,10 @@
-package fr.erwan.psql.multiRel;
+package fr.erwan.psql.entities;
 
+import java.util.HashSet;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +14,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
+/**
+ * Table planète avec relation n n avec les tables climates et terrains
+ * des tables d'associations sont créées
+ */
 @Entity
 public class Planet {
     @Id
@@ -30,7 +33,7 @@ public class Planet {
     @JoinTable(name = "Planets_Terrains",
              joinColumns = @JoinColumn(name = "planet_id"),
              inverseJoinColumns = @JoinColumn(name = "terrain_id"))
-    private List<Terrains> terrains;
+    private Set<Terrains> terrains = new HashSet<>();
     
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
         CascadeType.PERSIST,
@@ -39,9 +42,17 @@ public class Planet {
     @JoinTable(name = "Planets_Climates",
              joinColumns = @JoinColumn(name = "planet_id"),
              inverseJoinColumns = @JoinColumn(name = "climate_id"))
-    private List<Climates> climates;
+    private Set<Climates> climates = new HashSet<>();
 
     public Planet() {
+    }
+
+    public Planet(Long id, String name, long population, Set<Terrains> terrains, Set<Climates> climates) {
+        this.id = id;
+        this.name = name;
+        this.population = population;
+        this.terrains = terrains;
+        this.climates = climates;
     }
 
     public void addTerrain(Terrains t) {
@@ -52,14 +63,7 @@ public class Planet {
         climates.add(t);
     }
 
-    public Planet(Long id, String name, long population, List<Terrains> terrains, List<Climates> climates) {
-        this.id = id;
-        this.name = name;
-        this.population = population;
-        this.terrains = terrains;
-        this.climates = climates;
-    }
-
+    
     public Long getId() {
         return this.id;
     }
@@ -84,19 +88,19 @@ public class Planet {
         this.population = population;
     }
 
-    public List<Terrains> getTerrains() {
+    public Set<Terrains> getTerrains() {
         return this.terrains;
     }
 
-    public void SetTerrains(List<Terrains> terrains) {
+    public void SetTerrains(Set<Terrains> terrains) {
         this.terrains = terrains;
     }
 
-    public List<Climates> getClimates() {
+    public Set<Climates> getClimates() {
         return this.climates;
     }
 
-    public void SetClimates(List<Climates> climates) {
+    public void SetClimates(Set<Climates> climates) {
         this.climates = climates;
     }
 

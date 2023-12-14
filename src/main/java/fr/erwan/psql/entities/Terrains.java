@@ -1,41 +1,40 @@
-package fr.erwan.psql.multiRel;
+package fr.erwan.psql.entities;
 
+import java.util.HashSet;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.CascadeType;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 
-@Entity 
-public class Climates {
+@Entity
+public class Terrains {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String climate;
-    
+    private String terrains;
+
     // @ManyToMany(fetch = FetchType.LAZY,
     //   cascade = {
     //       CascadeType.PERSIST,
     //       CascadeType.MERGE
-    //   } ,mappedBy = "climates")
+    //   }, mappedBy = "terrains")
     @ManyToMany
-    private List<Planet> planets;
+    private Set<Planet> planets = new HashSet<>();
 
-    public Climates() {
+
+    public Terrains(Long id, String terrains, Set<Planet> planets) {
+        this.id = id;
+        this.terrains = terrains;
+        this.planets = planets;
     }
 
-    public Climates(Long id, String climate, List<Planet> planets) {
-        this.id = id;
-        this.climate = climate;
-        this.planets = planets;
+    public Terrains() {
     }
 
 
@@ -47,19 +46,19 @@ public class Climates {
         this.id = id;
     }
 
-    public String getClimate() {
-        return this.climate;
+    public String getTerrains() {
+        return this.terrains;
     }
 
-    public void SetClimate(String climate) {
-        this.climate = climate;
+    public void SetTerrains(String terrains) {
+        this.terrains = terrains;
     }
 
-    public List<Planet> getPlanets() {
+    public Set<Planet> getPlanets() {
         return this.planets;
     }
 
-    public void SetPlanets(List<Planet> planets) {
+    public void SetPlanets(Set<Planet> planets) {
         this.planets = planets;
     }
 
@@ -67,7 +66,8 @@ public class Climates {
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            ", climate='" + getClimate() + "'" +
+            ", terrains='" + getTerrains() + "'" +
             "}";
     }
 }
+

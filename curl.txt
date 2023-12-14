@@ -1,0 +1,7 @@
+curl.exe -GET http://localhost:8080/multi/init
+curl.exe -X DELETE http://localhost:8080/multi/delete/1
+curl.exe -GET http://localhost:8080/multi/getall
+curl.exe -X POST http://localhost:8080/multi/save  -H 'Content-Type:application/json' -d '{\"name\":\"parchezmoi\", \"population\":\"254587\", \"terrains\": [\"vaseux\"], \"climates\": [\"chaud\"] }'
+curl.exe -GET http://localhost:8080/multi/get/1
+curl.exe -X PUT http://localhost:8080/multi/update  -H 'Content-Type:application/json' -d '{\"name\":\"parchezmoi\", \"population\":\"2545870000\", \"terrains\": [\"vaseux\"], \"climates\": [\"chaud\"] }'
+
